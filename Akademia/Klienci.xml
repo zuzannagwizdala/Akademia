@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfKlient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Klient>
+    <Nazwisko>Gwizdała</Nazwisko>
+    <Imie>Zuzanna</Imie>
+    <NrTelefonu>508054969</NrTelefonu>
+    <Adres>wsedrtqwe</Adres>
+    <Pesel>98765432123</Pesel>
+  </Klient>
+  <Klient>
+    <Nazwisko>hyrtgref</Nazwisko>
+    <Imie>wer</Imie>
+    <NrTelefonu>123456789</NrTelefonu>
+    <Adres>qwerdh</Adres>
+    <Pesel>09876543212</Pesel>
+  </Klient>
+  <Klient>
+    <Nazwisko>Gwizdała</Nazwisko>
+    <Imie>wert</Imie>
+    <NrTelefonu>123456789</NrTelefonu>
+    <Adres>qawsedrt</Adres>
+    <Pesel>12345676543</Pesel>
+  </Klient>
+</ArrayOfKlient>

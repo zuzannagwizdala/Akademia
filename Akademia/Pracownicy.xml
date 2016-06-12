@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPracownik xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Pracownik>
+    <Nazwisko>Jantar</Nazwisko>
+    <Imie>Anna</Imie>
+    <NrTelefonu>34567</NrTelefonu>
+    <Etat>Caly</Etat>
+    <Pensja>12345678</Pensja>
+    <DataPrzyjecia>2016-06-11T23:26:57.9995673+02:00</DataPrzyjecia>
+  </Pracownik>
+  <Pracownik>
+    <Nazwisko>Kowalski</Nazwisko>
+    <Imie>Jan</Imie>
+    <NrTelefonu>98765432</NrTelefonu>
+    <Etat>Trzy_Czwarte</Etat>
+    <Pensja>123456</Pensja>
+    <DataPrzyjecia>2016-06-05T23:27:13</DataPrzyjecia>
+  </Pracownik>
+</ArrayOfPracownik>
