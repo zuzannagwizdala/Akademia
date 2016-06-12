@@ -14,8 +14,8 @@ namespace Akademia
     /// </summary>
     public partial class MainWindow : Window, IWyszukiwanie
     {
-        public ObservableCollection<Pracownik> listaPracownikow;
-        public ObservableCollection<Klient> listaKlientow;
+        private ObservableCollection<Pracownik> listaPracownikow;
+        private ObservableCollection<Klient> listaKlientow;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +32,7 @@ namespace Akademia
         {
             try
             {
-                if (ImiePracownikaTextBox.Text == "" || NazwiskoPracownikaTextBox.Text == "" 
+                if (ImiePracownikaTextBox.Text == "" || NazwiskoPracownikaTextBox.Text == ""
                     || NumerTelefonuPracownikaTextBox.Text == "" || PensjaTextBox.Text == "")
                 {
                     Exception pustePole = new Exception("Musisz uzupełnić wszystkie pola!");
@@ -41,8 +41,38 @@ namespace Akademia
                 Pracownik pracownik = new Pracownik();
                 pracownik.Imie = ImiePracownikaTextBox.Text;
                 pracownik.Nazwisko = NazwiskoPracownikaTextBox.Text;
+
+                string nrTel = NumerTelefonuPracownikaTextBox.Text;
+                foreach (char s in nrTel)
+                {
+                    if (s < '0' || s > '9')
+                    {
+                        Exception niewlasciwyNumer = new Exception("Numer telefonu ma niewłaściwy format!");
+                        throw niewlasciwyNumer;
+                    }
+                }
+
                 pracownik.NrTelefonu = Convert.ToInt32(NumerTelefonuPracownikaTextBox.Text);
                 pracownik.Etat = (Etat)Enum.Parse(typeof(Etat), Etat.Text);
+
+                string pensja = PensjaTextBox.Text;
+                foreach (var s in pensja)
+                {
+                    if (s < '0' || s > '9')
+                    {
+                        if (s != ',')
+                        {
+                            if (s == '.')
+                            {
+                                Exception niewlasciwaPensjaKropka = new Exception("Wpisz przecinek zamiast kropki w pensji!");
+                                throw niewlasciwaPensjaKropka;
+                            }
+                            Exception niewlasciwaPensja = new Exception("Pensja ma niewłaściwy format!");
+                            throw niewlasciwaPensja;
+                        }
+                    }
+                }
+
                 pracownik.Pensja = Convert.ToDouble(PensjaTextBox.Text);
                 pracownik.DataPrzyjecia = DataPrzyjecia.SelectedDate;
                 listaPracownikow.Add(pracownik);
@@ -64,13 +94,30 @@ namespace Akademia
         {
             try
             {
-                if (ImieKlientaTextBox.Text == "" || NazwiskoKlientaTextBox.Text == "" || AdresKlientaTextBox.Text == "" 
+                if (ImieKlientaTextBox.Text == "" || NazwiskoKlientaTextBox.Text == "" || AdresKlientaTextBox.Text == ""
                     || Pesel.Text == "" || NumerTelefonuKlientaTextBox.Text == "")
                 {
                     Exception pustePole = new Exception("Musisz uzupełnić wszystkie pola!");
                     throw pustePole;
                 }
-                
+
+                Klient klient = new Klient();
+                klient.Imie = ImieKlientaTextBox.Text;
+                klient.Nazwisko = NazwiskoKlientaTextBox.Text;
+
+                string nrTel = NumerTelefonuKlientaTextBox.Text;
+                foreach (char s in nrTel)
+                {
+                    if (s < '0' || s > '9')
+                    {
+                        Exception niewlasciwyNumer = new Exception("Numer telefonu ma niewłaściwy format!");
+                        throw niewlasciwyNumer;
+                    }
+                }
+
+                klient.NrTelefonu = Convert.ToInt32(NumerTelefonuKlientaTextBox.Text);
+                klient.Adres = AdresKlientaTextBox.Text;
+
                 if (Pesel.Text.Length == 11)
                 {
                     string pesel = Pesel.Text;
@@ -89,11 +136,6 @@ namespace Akademia
                     throw niewlasciwyPesel;
                 }
 
-                Klient klient = new Klient();
-                klient.Imie = ImieKlientaTextBox.Text;
-                klient.Nazwisko = NazwiskoKlientaTextBox.Text;
-                klient.NrTelefonu = Convert.ToInt32(NumerTelefonuKlientaTextBox.Text);
-                klient.Adres = AdresKlientaTextBox.Text;
                 klient.Pesel = Pesel.Text;
                 listaKlientow.Add(klient);
                 ImieKlientaTextBox.Clear();
@@ -162,15 +204,24 @@ namespace Akademia
 
         private void XmlFileToListPracownicy(string filename)
         {
-            using (var sr = new StreamReader(filename))
+            try
             {
-                var deserializer = new XmlSerializer(typeof(ObservableCollection<Pracownik>));
-                ObservableCollection<Pracownik> tmpList = (ObservableCollection<Pracownik>)deserializer.Deserialize(sr);
-                foreach (var item in tmpList)
+                using (var sr = new StreamReader(filename))
                 {
-                    listaPracownikow.Add(item);
+                    var deserializer = new XmlSerializer(typeof(ObservableCollection<Pracownik>));
+                    ObservableCollection<Pracownik> tmpList = (ObservableCollection<Pracownik>)deserializer.Deserialize(sr);
+                    foreach (var item in tmpList)
+                    {
+                        listaPracownikow.Add(item);
+                    }
                 }
             }
+            catch (InvalidOperationException)
+            {
+
+                MessageBox.Show("Niepoprawne dane w pliku!");
+            }
+
         }
 
         private void UsunKlienta(object sender, RoutedEventArgs e)
@@ -226,14 +277,22 @@ namespace Akademia
 
         private void XmlFileToListKlienci(string filename)
         {
-            using (var sr = new StreamReader(filename))
+            try
             {
-                var deserializer = new XmlSerializer(typeof(ObservableCollection<Klient>));
-                ObservableCollection<Klient> tmpList = (ObservableCollection<Klient>)deserializer.Deserialize(sr);
-                foreach (var item in tmpList)
+                using (var sr = new StreamReader(filename))
                 {
-                    listaKlientow.Add(item);
+                    var deserializer = new XmlSerializer(typeof(ObservableCollection<Klient>));
+                    ObservableCollection<Klient> tmpList = (ObservableCollection<Klient>)deserializer.Deserialize(sr);
+                    foreach (var item in tmpList)
+                    {
+                        listaKlientow.Add(item);
+                    }
                 }
+            }
+            catch (InvalidOperationException)
+            {
+
+                MessageBox.Show("Niepoprawne dane w pliku!");
             }
         }
 
