@@ -6,8 +6,8 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:Akademia"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="700">
-    <Grid Background="#80add8e6">
+        Title="MainWindow" Height="550" Width="700">
+    <Grid>
         <TabControl TabStripPlacement="Left">
             <TabItem Header="Pracownicy">
                 <TabControl>
@@ -20,12 +20,12 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" Margin="0,30">
-                                <Label Content="Imię: " HorizontalAlignment="Right"/>
-                                <Label Content="Nazwisko: " HorizontalAlignment="Right"/>
-                                <Label Content="Numer telefonu: " HorizontalAlignment="Right"/>
-                                <Label Content="Etat: " HorizontalAlignment="Right"/>
-                                <Label Content="Pensja [zł]: " HorizontalAlignment="Right"/>
-                                <Label Content="Data przyjęcia: " HorizontalAlignment="Right"/>
+                                <Label Content="Imię: " HorizontalAlignment="Right" Margin="3"/>
+                                <Label Content="Nazwisko: " HorizontalAlignment="Right" Margin="3"/>
+                                <Label Content="Numer telefonu: " HorizontalAlignment="Right" Margin="3"/>
+                                <Label Content="Etat: " HorizontalAlignment="Right" Margin="3"/>
+                                <Label Content="Pensja [zł]: " HorizontalAlignment="Right" Margin="3"/>
+                                <Label Content="Data przyjęcia: " HorizontalAlignment="Right" Margin="3"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="0,30">
@@ -34,7 +34,7 @@
                                 <TextBox Name="NumerTelefonuPracownikaTextBox" Margin="4"/>
                                 <ComboBox Name="Etat" Margin="4" SelectedIndex="2" HorizontalContentAlignment="Right" HorizontalAlignment="Left"/>
                                 <TextBox Name="PensjaTextBox" Margin="4"/>
-                                <Calendar Name="DataPrzyjecia" Margin="4" Width="200" HorizontalContentAlignment="Right" SelectedDate="{x:Static sys:DateTime.Now }" HorizontalAlignment="Center"/>
+                                <Calendar Name="DataPrzyjecia" Margin="4" Width="200" HorizontalContentAlignment="Right" SelectedDate="{x:Static sys:DateTime.Now }" HorizontalAlignment="left"/>
                                 <Button Name="dodajPracownika" Content="Dodaj" Height="20" Width="60" Margin="30" Click="DodajPracownika"/>
                             </StackPanel>
 
@@ -46,7 +46,21 @@
                                 <RowDefinition Height="4*"/>
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
-                            <DataGrid Name="ListaPracownikow" Grid.Row="0">
+                            <DataGrid Name="ListaPracownikow" Grid.Row="0" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Nazwisko" Width="100" Binding="{Binding Nazwisko}"/>
+                                    <DataGridTextColumn Header="Imię" Width="80" Binding="{Binding Imie}"/>
+                                    <DataGridTextColumn Header="Numer telefonu" Width="100"  Binding="{Binding NrTelefonu}"/>
+                                    <DataGridComboBoxColumn Header="Etat" Width="90"  x:Name="EtatComboBox" SelectedItemBinding="{Binding Etat}"/>
+                                    <DataGridTextColumn Header="Pensja" Width="80" Binding="{Binding Pensja}"/>
+                                    <DataGridTemplateColumn Header="Data przyjęcia" Width="110" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <DatePicker SelectedDate="{Binding DataPrzyjecia}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
                             </DataGrid>
                             <Button Grid.Row="1" Name="ZapisPracownikow" Margin="100,0,0,0" HorizontalAlignment="Left" Height="30" Content="Zapisz do pliku" Width="100" Click="ZapiszPracownikow"/>
                             <Button Grid.Row="1" Name="OdczytPracownikow" Margin="0,0,100,0" HorizontalAlignment="Right" Height="30" Content="Wczytaj z pliku" Width="100" Click="WczytajPracownikow"/>
@@ -61,19 +75,31 @@
                                 <RowDefinition Height="5*"/>
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="0">
-                                <StackPanel Width="200" Height="50" VerticalAlignment="Top">
-                                    <Label Content="Wyszukaj po numerze telefonu: " HorizontalAlignment="Right"/>
-                                    <Label Content="Wyszukaj po nazwisku: " HorizontalAlignment="Right"/>
+                                <StackPanel Width="200" Height="100" VerticalAlignment="Top">
+                                    <Label Content="Wyszukaj po numerze telefonu: " HorizontalAlignment="Right" Margin="3"/>
+                                    <Label Content="Wyszukaj po nazwisku: " HorizontalAlignment="Right" Margin="3"/>
                                 </StackPanel>
 
-                                <StackPanel Width="250" Height="100" VerticalAlignment="Top">
+                                <StackPanel Width="250" Height="110" VerticalAlignment="Top">
                                     <TextBox Name="NrTelefonuSzukajPracownik" Width="150" HorizontalAlignment="Left" Margin="4" GotFocus="NrTelefonuSzukaj_GotFocus"/>
                                     <TextBox Name="NazwiskoSzukajPracownik" Width="150" HorizontalAlignment="Left" Margin="4" GotFocus="NazwiskoSzukaj_GotFocus"/>
-                                    <Button Content="Wyszukaj" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Margin="20" Width="60" Click="WyszukajPracownik"/>
+                                    <Button Content="Wyszukaj" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="20" Margin="20" Width="70" Click="WyszukajPracownik"/>
                                 </StackPanel>
                             </StackPanel>
 
-                            <DataGrid Name="WyszukaniPracownicy" Grid.Row="1"></DataGrid>
+                            <ListView Name="WyszukaniPracownicy" Grid.Row="1">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Nazwisko" Width="100" DisplayMemberBinding="{Binding Nazwisko}"/>
+                                        <GridViewColumn Header="Imię" Width="80" DisplayMemberBinding="{Binding Imie}"/>
+                                        <GridViewColumn Header="Numer telefonu" Width="100"  DisplayMemberBinding="{Binding NrTelefonu}"/>
+                                        <GridViewColumn Header="Etat" Width="90" DisplayMemberBinding="{Binding Etat}"/>
+                                        <GridViewColumn Header="Pensja" Width="80" DisplayMemberBinding="{Binding Pensja}"/>
+                                        <GridViewColumn Header="Data przyjęcia" Width="110" DisplayMemberBinding="{Binding DataPrzyjecia}"/>
+
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
                         </Grid>
                     </TabItem>
                 </TabControl>
@@ -89,11 +115,11 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" Margin="0,30">
-                                <Label Content="Imię: " HorizontalAlignment="Right"/>
-                                <Label Content="Nazwisko: " HorizontalAlignment="Right"/>
-                                <Label Content="Numer telefonu: " HorizontalAlignment="Right"/>
-                                <Label Content="Adres: " HorizontalAlignment="Right"/>
-                                <Label Content="PESEL: " HorizontalAlignment="Right" ContentStringFormat="{}{0:9}"/>
+                                <Label Content="Imię: " HorizontalAlignment="Right" Margin="3"/>
+                                <Label Content="Nazwisko: " HorizontalAlignment="Right" Margin="3"/>
+                                <Label Content="Numer telefonu: " HorizontalAlignment="Right" Margin="3"/>
+                                <Label Content="Adres: " HorizontalAlignment="Right" Margin="3"/>
+                                <Label Content="PESEL: " HorizontalAlignment="Right" ContentStringFormat="{}{0:9}" Margin="3"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="0,30">
@@ -114,7 +140,14 @@
                                 <RowDefinition Height="4*"/>
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
-                            <DataGrid Name="ListaKlientow" Grid.Row="0">
+                            <DataGrid Name="ListaKlientow" Grid.Row="0" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Nazwisko" Width="100" Binding="{Binding Nazwisko}"/>
+                                    <DataGridTextColumn Header="Imię" Width="80" Binding="{Binding Imie}"/>
+                                    <DataGridTextColumn Header="Numer telefonu" Width="100" Binding="{Binding NrTelefonu}"/>
+                                    <DataGridTextColumn Header="Adres" Width="180" Binding="{Binding Adres}"/>
+                                    <DataGridTextColumn Header="Pesel" Width="100" Binding="{Binding Pesel}"/>
+                                </DataGrid.Columns>
                             </DataGrid>
                             <Button Grid.Row="1" Name="ZapisKlientow" Margin="100,0,0,0" HorizontalAlignment="Left" Height="30" Content="Zapisz do pliku" Width="100" Click="ZapiszKlientow"/>
                             <Button Grid.Row="1" Name="OdczytKlientow" Margin="0,0,100,0" HorizontalAlignment="Right" Height="30" Content="Wczytaj z pliku" Width="100" Click="WczytajKlientow"/>
@@ -129,19 +162,29 @@
                                 <RowDefinition Height="5*"/>
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="0">
-                                <StackPanel Width="200" Height="50" VerticalAlignment="Top">
-                                    <Label Content="Wyszukaj po numerze telefonu: " HorizontalAlignment="Right"/>
-                                    <Label Content="Wyszukaj po nazwisku: " HorizontalAlignment="Right"/>
+                                <StackPanel Width="200" Height="100" VerticalAlignment="Top">
+                                    <Label Content="Wyszukaj po numerze telefonu: " HorizontalAlignment="Right" Margin="3"/>
+                                    <Label Content="Wyszukaj po nazwisku: " HorizontalAlignment="Right" Margin="3"/>
                                 </StackPanel>
-                                
-                                <StackPanel Width="250" Height="100" VerticalAlignment="Top">
+
+                                <StackPanel Width="250" Height="110" VerticalAlignment="Top">
                                     <TextBox Name="NrTelefonuSzukajKlient" Width="150" HorizontalAlignment="Left" Margin="4" GotFocus="NrTelefonuSzukaj_GotFocus"/>
                                     <TextBox Name="NazwiskoSzukajKlient" Width="150" HorizontalAlignment="Left" Margin="4" GotFocus="NazwiskoSzukaj_GotFocus"/>
-                                    <Button Content="Wyszukaj" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Margin="20" Width="60" Click="WyszukajKlient"/>
+                                    <Button Content="Wyszukaj" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="20" Margin="20" Width="70" Click="WyszukajKlient"/>
                                 </StackPanel>
                             </StackPanel>
 
-                            <DataGrid Name="WyszukaniKlienci" Grid.Row="1"></DataGrid>
+                            <ListView Name="WyszukaniKlienci" Grid.Row="1">
+                                <ListView.View>
+                                    <GridView>
+                                    <GridViewColumn Header="Nazwisko" Width="100" DisplayMemberBinding="{Binding Nazwisko}"/>
+                                        <GridViewColumn Header="Imię" Width="80" DisplayMemberBinding="{Binding Imie}"/>
+                                        <GridViewColumn Header="Numer telefonu" Width="100" DisplayMemberBinding="{Binding NrTelefonu}"/>
+                                        <GridViewColumn Header="Adres" Width="180" DisplayMemberBinding="{Binding Adres}"/>
+                                        <GridViewColumn Header="Pesel" Width="100" DisplayMemberBinding="{Binding Pesel}"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
                         </Grid>
                     </TabItem>
                 </TabControl>

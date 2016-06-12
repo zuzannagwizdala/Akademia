@@ -25,6 +25,7 @@ namespace Akademia
             this.ListaPracownikow.ItemsSource = listaPracownikow;
             this.ListaKlientow.ItemsSource = listaKlientow;
             this.Etat.ItemsSource = Enum.GetValues(typeof(Etat));
+            this.EtatComboBox.ItemsSource = Enum.GetValues(typeof(Etat));
         }
 
         private void DodajPracownika(object sender, RoutedEventArgs e)
