@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Akademia
 {
+    //interfejs
     interface IWyszukiwanie
     {
+        //poilmorfizm
         ObservableCollection<Klient> Wyszukaj(ObservableCollection<Klient> lista, string nazwisko);
         ObservableCollection<Klient> Wyszukaj(ObservableCollection<Klient> lista, int nrTelefonu);
 

@@ -12,8 +12,11 @@ namespace Akademia
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+ 
+    //implementacja interfejsu
     public partial class MainWindow : Window, IWyszukiwanie
     {
+        //kolekcje
         private ObservableCollection<Pracownik> listaPracownikow;
         private ObservableCollection<Klient> listaKlientow;
         public MainWindow()
@@ -30,7 +33,7 @@ namespace Akademia
 
         private void DodajPracownika(object sender, RoutedEventArgs e)
         {
-            try
+            try //wyjatek
             {
                 if (ImiePracownikaTextBox.Text == "" || NazwiskoPracownikaTextBox.Text == ""
                     || NumerTelefonuPracownikaTextBox.Text == "" || PensjaTextBox.Text == "")
@@ -92,7 +95,7 @@ namespace Akademia
 
         private void DodajKlienta(object sender, RoutedEventArgs e)
         {
-            try
+            try //wyjatek
             {
                 if (ImieKlientaTextBox.Text == "" || NazwiskoKlientaTextBox.Text == "" || AdresKlientaTextBox.Text == ""
                     || Pesel.Text == "" || NumerTelefonuKlientaTextBox.Text == "")
@@ -204,7 +207,7 @@ namespace Akademia
 
         private void XmlFileToListPracownicy(string filename)
         {
-            try
+            try //wyjatek
             {
                 using (var sr = new StreamReader(filename))
                 {
@@ -277,7 +280,7 @@ namespace Akademia
 
         private void XmlFileToListKlienci(string filename)
         {
-            try
+            try //wyjatek
             {
                 using (var sr = new StreamReader(filename))
                 {
